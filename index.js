@@ -1,3 +1,4 @@
+#! /usr/bin/env node
 import inquirer from "inquirer";
 let myBalance = 10000;
 let myPin = 6789;
@@ -15,9 +16,23 @@ if (pinAnswer.pin === myPin) {
             name: "option",
             message: "Select an option",
             type: "list",
-            choices: ["Withdraw", "check balance", "fast Cash"]
+            choices: ["Withdraw", "check balance", "fast Cash", "Cash Deposit"]
         }
     ]);
+    if (optionAnswer.option === "Cash Deposit") {
+        let amountAnswer = await inquirer.prompt([
+            {
+                name: "deposit",
+                type: "number",
+                message: "enter amount"
+            }
+        ]);
+        if (amountAnswer.deposit > 0) {
+            console.log(`amount Deposited : $ ${amountAnswer.deposit}`);
+            myBalance += amountAnswer.deposit;
+            console.log(`Your updated balance : $ ${myBalance}`);
+        }
+    }
     if (optionAnswer.option === "fast Cash") {
         let fastCashAnswer = await inquirer.prompt([
             {
@@ -29,19 +44,19 @@ if (pinAnswer.pin === myPin) {
         ]);
         if (fastCashAnswer.fastCash === "50") {
             myBalance -= fastCashAnswer.fastCash;
-            console.log(`remaining Balance is: ${myBalance}`);
+            console.log(`remaining Balance is: $ ${myBalance}`);
         }
         else if (fastCashAnswer.fastCash === "100") {
             myBalance -= fastCashAnswer.fastCash;
-            console.log(`remaining Balance is ${myBalance}`);
+            console.log(`remaining Balance is $ ${myBalance}`);
         }
         else if (fastCashAnswer.fastCash === "500") {
             myBalance -= fastCashAnswer.fastCash;
-            console.log(`remaining Balance is: ${myBalance}`);
+            console.log(`remaining Balance is: $ ${myBalance}`);
         }
     }
     if (optionAnswer.option === "check balance") {
-        console.log(`Your balance is: ${myBalance}`);
+        console.log(`Your balance is: $ ${myBalance}`);
     }
     else if (optionAnswer.option === "Withdraw") {
         let amountAnswer = await inquirer.prompt([
@@ -56,7 +71,7 @@ if (pinAnswer.pin === myPin) {
         }
         else {
             myBalance -= amountAnswer.amount;
-            console.log(`Your remaining Balance: ${myBalance}`);
+            console.log(`Your remaining Balance: $ ${myBalance}`);
         }
         ;
     }
